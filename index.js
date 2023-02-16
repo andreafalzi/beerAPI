@@ -80,79 +80,151 @@ app.get('/', (req, res) => {
   res.json('Welcome to my Beer API');
 });
 
-app.get('/ranker', (req, res) => {
-  axios.get('https://www.ranker.com/list/top-beers-from-denmark/reference').then((response) => {
-    const html = response.data;
-    const $ = cheerio.load(html);
+// app.get('/ranker', (req, res) => {
+//   axios.get('https://www.ranker.com/list/top-beers-from-denmark/reference').then((response) => {
+//     const html = response.data;
+//     const $ = cheerio.load(html);
 
-    $('li[role="listitem"]', html).each(function () {
-      const title = $('h2', this).text();
-      const id = $(this).attr('data-item-id');
-      const alchool = $('div.NodeName_firstProperties__xGMas', this).text();
-      beersListRanker.push({
-        title,
-        alchool,
-        id,
-      });
-    });
-  });
+//     $('li[role="listitem"]', html).each(function () {
+//       const title = $('h2', this).text();
+//       const id = $(this).attr('data-item-id');
+//       const alchool = $('div.NodeName_firstProperties__xGMas', this).text();
+//       beersListRanker.push({
+//         title,
+//         alchool,
+//         id,
+//       });
+//     });
+//     res.json(beersListRanker);
+//   });
+// });
 
-  res.json(beersListRanker);
+app.get('/denmark', (req, res) => {
+  axios
+    .get('http://www.europeanbeerguide.net/denbrew.htm')
+    .then((response) => {
+      const html = response.data;
+      const $ = cheerio.load(html);
+
+      $('tr', html)
+        .has('td > b')
+        .each(function () {
+          const title = $('tr td', this).eq(0).text();
+          const alchool = $('tr td', this).eq(1).text();
+          const descriptionOne = $('tr td', this).eq(2).text();
+          const descriptionTwo = $('tr td', this).eq(3).text();
+
+          const description = descriptionOne.length > 2 ? descriptionOne : descriptionTwo;
+
+          convertText(title);
+
+          if (alchool.includes('%') && !alchool.includes('-') && convertText(description) != '') {
+            beersListEBG.push({
+              title,
+              alchool,
+              description,
+            });
+          }
+        });
+      res.json(beersListEBG);
+    })
+    .catch((err) => console.log(err));
 });
 
-app.get('/wikiliq', (req, res) => {
-  axios.get('https://wikiliq.org/best-beer/').then((response) => {
-    const html = response.data;
-    const $ = cheerio.load(html);
+app.get('/sweden', (req, res) => {
+  axios
+    .get('http://www.europeanbeerguide.net/swedbrew.htm')
+    .then((response) => {
+      const html = response.data;
+      const $ = cheerio.load(html);
 
-    $('tbody.desktop', html).each(function () {
-      const title = $('img', this).attr('alt');
-      const image = $('img', this).attr('src');
-      const brand = $('tr td', this).eq(5).text();
-      const country = $('tr td', this).eq(6).children('a').text();
+      $('tr', html)
+        .has('td > b')
+        .each(function () {
+          const title = $('tr td', this).eq(0).text();
+          const alchool = $('tr td', this).eq(1).text();
+          const descriptionOne = $('tr td', this).eq(2).text();
+          const descriptionTwo = $('tr td', this).eq(3).text();
 
-      beersListWikiliq.push({
-        title,
-        image,
-        brand,
-        country,
-      });
-    });
-  });
+          const description = descriptionOne.length > 2 ? descriptionOne : descriptionTwo;
 
-  res.json(beersListWikiliq);
+          convertText(title);
+
+          if (alchool.includes('%') && !alchool.includes('-') && convertText(description) != '') {
+            beersListEBG.push({
+              title,
+              alchool,
+              description,
+            });
+          }
+        });
+      res.json(beersListEBG);
+    })
+    .catch((err) => console.log(err));
 });
 
-app.get('/EBG', (req, res) => {
-  axios.get('http://www.europeanbeerguide.net/denbrew.htm').then((response) => {
-    const html = response.data;
-    const $ = cheerio.load(html);
+app.get('/belgium', (req, res) => {
+  axios
+    .get('http://www.europeanbeerguide.net/belgbrew.htm')
+    .then((response) => {
+      const html = response.data;
+      const $ = cheerio.load(html);
 
-    console.log(convertText('Aarhus Bryghus Rød Ale'));
+      $('tr', html)
+        .has('td > b')
+        .each(function () {
+          const title = $('tr td', this).eq(0).text();
+          const alchool = $('tr td', this).eq(1).text();
+          const descriptionOne = $('tr td', this).eq(2).text();
+          const descriptionTwo = $('tr td', this).eq(3).text();
 
-    $('tr', html)
-      .has('td > b')
-      .each(function () {
-        const title = $('tr td', this).eq(0).text();
-        const alchool = $('tr td', this).eq(1).text();
-        const descriptionOne = $('tr td', this).eq(2).text();
-        const descriptionTwo = $('tr td', this).eq(3).text();
+          const description = descriptionOne.length > 2 ? descriptionOne : descriptionTwo;
 
-        const description = descriptionOne.length > 2 ? descriptionOne : descriptionTwo;
+          convertText(title);
 
-        convertText(title);
+          if (alchool.includes('%') && !alchool.includes('-') && convertText(description) != '') {
+            beersListEBG.push({
+              title,
+              alchool,
+              description,
+            });
+          }
+        });
+      res.json(beersListEBG);
+    })
+    .catch((err) => console.log(err));
+});
 
-        if (alchool.includes('%') && !alchool.includes('-') && convertText(description) != '') {
-          beersListEBG.push({
-            title,
-            alchool,
-            description,
-          });
-        }
-      });
-  });
+app.get('/spain', (req, res) => {
+  axios
+    .get('http://www.europeanbeerguide.net/spanbrew.htm')
+    .then((response) => {
+      const html = response.data;
+      const $ = cheerio.load(html);
 
-  res.json(beersListEBG);
+      $('tr', html)
+        .has('td > b')
+        .each(function () {
+          const title = $('tr td', this).eq(0).text();
+          const alchool = $('tr td', this).eq(1).text();
+          const descriptionOne = $('tr td', this).eq(2).text();
+          const descriptionTwo = $('tr td', this).eq(3).text();
+
+          const description = descriptionOne.length > 2 ? descriptionOne : descriptionTwo;
+
+          convertText(title);
+
+          if (alchool.includes('%') && !alchool.includes('-') && convertText(description) != '') {
+            beersListEBG.push({
+              title,
+              alchool,
+              description,
+            });
+          }
+        });
+      res.json(beersListEBG);
+    })
+    .catch((err) => console.log(err));
 });
 
 app.listen(PORT, () => {
@@ -174,6 +246,9 @@ function convertText(text) {
     }
     if (e.includes('ä')) {
       e = e.replace('ä', 'o');
+    }
+    if (e.includes('ü')) {
+      e = e.replace('ü', 'u');
     }
     convertedText.push(e);
   });
