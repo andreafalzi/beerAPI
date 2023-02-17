@@ -25,6 +25,46 @@ const beers = [
     country: 'spain',
     url: 'http://www.europeanbeerguide.net/spanbrew.htm',
   },
+  {
+    country: 'portugal',
+    url: 'http://www.europeanbeerguide.net/portbrew.htm',
+  },
+  {
+    country: 'ireland',
+    url: 'http://www.europeanbeerguide.net/irlbrew.htm',
+  },
+  {
+    country: 'luxembourg',
+    url: 'http://www.europeanbeerguide.net/luxbrew.htm',
+  },
+  {
+    country: 'norway',
+    url: 'http://www.europeanbeerguide.net/norbrew.htm',
+  },
+  {
+    country: 'finland',
+    url: 'http://www.europeanbeerguide.net/finbrew.htm',
+  },
+  {
+    country: 'switzerland',
+    url: 'http://www.europeanbeerguide.net/swisbrew.htm',
+  },
+  {
+    country: 'czech',
+    url: 'http://www.europeanbeerguide.net/czecbrew.htm',
+  },
+  {
+    country: 'italy',
+    url: 'http://www.europeanbeerguide.net/italbrew.htm',
+  },
+  {
+    country: 'poland',
+    url: 'http://www.europeanbeerguide.net/polbrew.htm',
+  },
+  {
+    country: 'malta',
+    url: 'http://www.europeanbeerguide.net/maltbrew.htm',
+  },
 ];
 
 const beersList = [];
