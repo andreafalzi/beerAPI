@@ -2,6 +2,7 @@ const PORT = process.env.PORT || 8000;
 const express = require('express');
 const axios = require('axios');
 const cheerio = require('cheerio');
+const fs = require('fs');
 
 const app = express();
 
@@ -141,9 +142,12 @@ app.get('/beers/:beerId', (req, res) => {
 });
 
 app.get('/beers', (req, res) => {
-  const text = 'øøææåååasdø asdåøewr´ ør ñ æøløløp';
-  console.log(convertText(text));
-
+  fs.writeFile('./data.json', JSON.stringify(beersList), (err) => {
+    if (err) console.log(err);
+    else {
+      console.log('File written successfully\n');
+    }
+  });
   res.json(beersList);
 });
 
