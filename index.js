@@ -155,25 +155,6 @@ app.get('/', (req, res) => {
   res.json('Welcome to my Beer API');
 });
 
-// app.get('/ranker', (req, res) => {
-//   axios.get('https://www.ranker.com/list/top-beers-from-denmark/reference').then((response) => {
-//     const html = response.data;
-//     const $ = cheerio.load(html);
-
-//     $('li[role="listitem"]', html).each(function () {
-//       const title = $('h2', this).text();
-//       const id = $(this).attr('data-item-id');
-//       const alchool = $('div.NodeName_firstProperties__xGMas', this).text();
-//       beersListRanker.push({
-//         title,
-//         alchool,
-//         id,
-//       });
-//     });
-//     res.json(beersListRanker);
-//   });
-// });
-
 app.listen(PORT, () => {
   console.log(`server running on PORT ${PORT}`);
 });
