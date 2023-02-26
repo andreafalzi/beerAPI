@@ -1,5 +1,5 @@
 # Use the official Node.js image as the base image
-FROM node:12
+FROM node:16
 
 # Set the working directory in the container
 WORKDIR /app
@@ -12,5 +12,5 @@ RUN npm install
 
 # Define the entry point for the container
 CMD ["nodemon index.js", "start"]
-ENV PORT 8000
-EXPOSE 8000
+
+EXPOSE 80
