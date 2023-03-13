@@ -107,7 +107,7 @@ beers.forEach((country) => {
 app.get('/beers/:beerId', (req, res) => {
   const beerId = req.params.beerId;
 
-  const siteAddress = beers.filter((beer) => beer.country == beerId)[0].url;
+  const siteAddress = beers.filter((beer) => beer.country == beerId.toLowerCase())[0].url;
 
   axios.get(siteAddress).then((response) => {
     const html = response.data;
